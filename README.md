@@ -11,7 +11,8 @@
 ## TASKS
 
 ### HTML
-[_] Basic Frame
+[X] Basic Frame
+[_] Bootstrap
 
 ### CSS
 [_] Basic Frame
@@ -19,3 +20,4 @@
 
 ### JS
 [_] Basic Frame
+[_] 
