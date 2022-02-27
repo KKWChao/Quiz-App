@@ -1,5 +1,7 @@
 var high_score = $('highScore');
-var times = $('#timer');
+
+// using javascript since setInterval is a javascript builtin
+var timer_JS = document.getElementById('timer');
 
 var question_Container = $('#questionContainer');
 var li_El1 = $('#liElem1');
@@ -7,6 +9,8 @@ var li_El1 = $('#liElem2');
 var li_El1 = $('#liElem3');
 var li_El1 = $('#liElem4');
 var answer_display = $('#answerDisplay');
+
+var userScore = 0;
 
 
 // QUESTIONS 
@@ -63,12 +67,24 @@ const questions = {
   },
 };
 
-// Need to get timer API
 
-times.html(function() {
-  console.log("poop")
-})
 
+// timer function
+function countdown() {
+  var timer_JS = 10;
+
+  setInterval(function(){
+    if (timer_JS > 0) {
+      --timer_JS
+      console.log(timer_JS)
+    } else {
+      clearInterval()
+      console.log("Countdown complete")
+    }
+  },1000)
+};
+
+countdown()
 
 // GAME FUNCTION
 
@@ -76,9 +92,18 @@ times.html(function() {
 
 function () {
   on select on first answer
-    begin countdown
+    call timer function
 
+  while timer > 0
+    update question and answers
+      if correct answer selected +5s
+      else -5s
   
+  
+
+
+  ask for name and display score
+    store in high score table
 }
 
 */

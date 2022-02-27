@@ -17,20 +17,66 @@
 
   <!-- Boostrap container for JQuery App -->
   <main class="container-fluid">
-    <section class="col-lg-12 p-3 mb-1">
-      <h1 class="bg-info p-2 border-0 rounded text-center text-uppercase">Quiz</h1>
-      <div class="row justify-content-between">
-        <a class="pl-5 text-danger" href="#">High Score</a>
-        <a class="pr-5 text-danger" id="timer">Time</a>
+    <section class="col-lg-12 p-3">
+      <h1 class="bg-primary 
+                  p-2 mb-3
+                  border-0 
+                  rounded 
+                  text-center 
+                  text-uppercase">Quiz</h1>
+      <div class="row justify-content-around">
+
+        <!-- Dropdown for highscores NEED TO FIX-->
+        <div class="dropdown">
+          <button 
+            class="btn 
+                    btn-primary 
+                    dropdown-toggle" 
+            type="button" 
+            id="dropdownMenuButton" 
+            data-toggle="dropdown" 
+            aria-haspopup="true" 
+            aria-expanded="false">
+            High Scores
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">11111</a>
+            <a class="dropdown-item" href="#">22222</a>
+            <a class="dropdown-item" href="#">33333</a>
+            <a class="dropdown-item" href="#">44444</a>
+            <a class="dropdown-item" href="#">55555</a>
+          </div>
+        </div>
+
+        <a class="text-danger 
+                  align-self-center 
+                  bg-white text-dark
+                  border border-dark
+                  rounded
+                  pl-4 pr-4 pt-2 pb-2" 
+          id="timer">1</a>
       </div>
     </section>
 
     <section class="container">
       <!-- Main Question -->
-      <h2 class="row d-flex justify-content-center bg-primary p-2 mb-5 border-0 rounded" id="questionContainer">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam error iste alias at! Dicta quibusdam voluptate rerum, blanditiis tenetur molestias quos aliquam provident, saepe quas expedita recusandae quo. Aperiam, similique?</h2>
+      <h2 class="row 
+                  d-flex 
+                  justify-content-center 
+                  bg-primary 
+                  p-2 mb-5 
+                  border-0 rounded" 
+          id="questionContainer">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam error iste alias at! Dicta quibusdam voluptate rerum, blanditiis tenetur molestias quos aliquam provident, saepe quas expedita recusandae quo. Aperiam, similique?</h2>
       
-      <div class="d-flex justify-content-center align-items-center">
-        <ul class="list-group p-2 text-dark mw-50 mb-5">
+      <div class="d-flex 
+                  justify-content-center 
+                  align-items-center">
+        <ul class="list-group 
+                    p-2 
+                    text-dark 
+                    mw-50 
+                    mb-5">
           <li class="list-group-item list-group-item-action" id="liElem1">Lorem ipsum dolor sit amet consectetur adipisicing elit. </li>
           <li class="list-group-item list-group-item-action" id="liElem2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, veniam!</li>
           <li class="list-group-item list-group-item-action" id="liElem3">Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
@@ -40,7 +86,9 @@
         
       </div>
       <!-- Answer Choice -->
-      <p class="row text-white justify-content-center" id="answerDisplay">test</p>
+      <p class="row 
+                text-white 
+                justify-content-center" id="answerDisplay">test</p>
     </section>
   </main>
 
