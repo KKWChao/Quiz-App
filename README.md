@@ -9,10 +9,13 @@
 * Javascript
 
 ## TASKS
-### HTML
 
+### HTML
+[_] Basic Frame
 
 ### CSS
+[_] Basic Frame
 
 
 ### JS
+[_] Basic Frame
