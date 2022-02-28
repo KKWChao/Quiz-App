@@ -1,7 +1,8 @@
 var high_score = $('highScore');
 
 // using javascript since setInterval is a javascript builtin
-var timer_JS = document.getElementById('timer');
+// var timer_JS = document.getElementById('timer');
+var timer_JS = $('#timer')
 
 var question_Container = $('#questionContainer');
 var li_El1 = $('#liElem1');
@@ -9,6 +10,7 @@ var li_El2 = $('#liElem2');
 var li_El3 = $('#liElem3');
 var li_El4 = $('#liElem4');
 var answer_display = $('#answerDisplay');
+var timer_temp = 10;
 
 var user_ = {
   name: "",
@@ -119,18 +121,19 @@ const answers = [
 
 // timer function
 function countdown() {
-  var timer_temp = 11;
-
-  setInterval(function(){
+  times = setInterval(function(){
     if (timer_temp > 0) {
       --timer_temp
       console.log(timer_temp)
-      timer_JS.innerHTML = `${timer_temp} seconds`;
+      // timer_JS.innerHTML = `${timer_temp} seconds`;
+      timer_JS.html(`${timer_temp} seconds`)
 
     } else {
-      clearInterval()
       console.log("Countdown complete")
-      timer_JS.innerHTML = "TIMES UP"
+      timer_JS.removeClass("bg-white")
+      timer_JS.addClass("bg-danger")
+      timer_JS.html(`TIMES UP!`)
+      clearInterval(times)
       /* 
         Log user name and score and push to high score array for storage
       */
@@ -138,9 +141,15 @@ function countdown() {
   },1000)
 };
 
-question_Container.on('click', function() {
-  countdown()
-}) ;
+
+
+
+
+$('body').on('click', function() {
+  $('body').off()
+  startGame();
+  countdown();
+});
 
 // Answer Choice
 
@@ -168,7 +177,7 @@ function startGame() {
   setNextQ()
 }
 
-startGame();
+
 
 function setNextQ() {
   resetEventListeners()
@@ -201,18 +210,18 @@ function selectAnswer(e) {
   answer_display.removeClass('bg-danger')
   answer_display.removeClass('bg-success')
 
-  if (shuffledQ.length > currentQIndex + 1) {
+  if (shuffledQ.length > currentQIndex + 1 && timer_temp > 0) {
     currentQIndex++
 
     if (answers.includes(selected)) {    
       user_.score++
-      timer_JS += 5
+      timer_temp += 5
       answer_display.html("Correct!")
       answer_display.addClass('bg-success')
       setNextQ();
   
     } else {
-      timer_JS -= 5
+      timer_temp -= 5
       answer_display.html("Incorrect!")
       answer_display.addClass('bg-danger')
       setNextQ();
@@ -220,7 +229,9 @@ function selectAnswer(e) {
   } else {
     window.alert("GAME OVER")
     resetEventListeners()
-    answer_display.html(`Your Score: ${user_.score}`)
+    answer_display.addClass("bg-warning text-dark")
+    answer_display.html(`Complete! <br/>
+    Your Score: ${user_.score}`)
   }
 }
 
