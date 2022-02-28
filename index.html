@@ -5,82 +5,66 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz</title>
-  
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-  
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  
+  
 </head>
 <body class="bg-dark text-white">
-  <!-- HEADER -->
-  <header>
-
-  </header>
-
   <!-- Boostrap container for JQuery App -->
+
+  <!-- TITLE -->
   <main class="container justify-content-center">
     <section class="col-lg-12 p-3">
-      <h1 class="bg-primary 
-                  p-2 mb-5
-                  border-0 
-                  rounded 
-                  text-center 
-                  text-uppercase">Quiz</h1>
-                  
-      <div class="d-flex justify-content-center">
-        <p class="col-3 text-center
-                  bg-info
-                  border border-dark
-                  rounded
-                  pl-4 pr-4 pt-2 pb-2
-                  fs-1" 
-          id="timer">Timer</p>
-      </div>
+      <h1 class="row justify-content-center bg-primary p-2 mb-5 border-0 rounded text-uppercase">Quiz</h1>
     </section>
 
-    <section class="container">
+    <!-- QUESTIONS AND ANSWERS -->
+    <section class="container" id="mainContainer">
       <!-- Main Question -->
-      <h2 class="row 
-                  d-flex 
-                  justify-content-center 
-                  bg-primary 
-                  p-2 mb-5 
-                  border-0 rounded" 
+      <h2 class="row justify-content-center bg-primary p-2 mb-5 border-0 rounded" 
           id="questionContainer">
           Click Here to Begin!</h2>
-      
-      <div class="d-flex 
-                  justify-content-center 
-                  align-items-center">
-        <ul class="list-group 
-                    p-2 
-                    text-dark 
-                    mw-50 
-                    mb-5">
+      <!-- TIMER -->
+      <div class="d-flex justify-content-around align-items-center mb-5">
+        <div class="col-3 justify-content-center">
+          <p class="text-center bg-info border border-dark rounded p-4 fs-2" 
+            id="timer">Timer</p>
+        </div>
+        <!-- ANSWERS -->          
+        <ul class="list-group p-2  text-dark mw-50 col-9"
+            id="ul-answers">
           <li class="list-group-item list-group-item-action text-center" id="liElem1">Option 1</li>
           <li class="list-group-item list-group-item-action text-center" id="liElem2">Option 2</li>
           <li class="list-group-item list-group-item-action text-center" id="liElem3">Option 3</li>
           <li class="list-group-item list-group-item-action text-center" id="liElem4">Option 4</li>
         </ul>
+
       </div>
 
-<!--  <div class="container d-flex justify-content-center pb-2">
-        <button type="button" class="btn btn-warning" id="reset">Restart</button>
-      </div>   -->
       <!-- Answer Choice -->
       <div class="d-flex row justify-content-center">
-        <p class="col-2 text-white  
-                  text-center 
-                  pr-4 pl-4 pt-2 pb-2" id="answerDisplay"></p>
+        <p class="col-2 text-white text-center pr-4 pl-4 pt-2 pb-2" id="answerDisplay"></p>
       </div>
     </section>
 
+    <!-- FORM ITEM FOR SUBMISSION -->
+    <form class="container col-4 mb-3 d-none" id="nameSubmitter">
+      <div class="form-group d-flex justify-content-center">
+        <input type="text" id="userName" class="form-control " placeholder="Name">
+        <button type="button" class="btn btn-warning pl-1" id="submitter">Submit</button>
+      </div>
+
+      <!-- RESET BUTTON -->
+      <div class="container d-flex justify-content-center pt-2">
+        <button type="button" class="form-control btn btn-warning" id="reset">Restart</button>
+      </div>
+    </form>
+
+    <!-- HIGH SCORES SECTION -->
     <div class="container d-flex justify-content-center">
       <h3 class="">High Scores</h3>
     </div>
-
     <div class="container d-flex justify-content-center">
       <ul class="list-group list-group-flush col-3 text-center text-si">
         <li class="list-group-item bg-dark text-white fs-6" id="liHigh1"></li>
@@ -94,11 +78,6 @@
 
 
   </main>
-
-  <footer>
-
-  </footer>
-
   <script src="./assets/js/script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 

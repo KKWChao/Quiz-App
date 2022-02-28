@@ -1,23 +1,25 @@
 var high_score = $('highScore');
-
-// using javascript since setInterval is a javascript builtin
-// var timer_JS = document.getElementById('timer');
+var questionIndex = 0;
+var shuffledQ, currentQIndex
 var timer_JS = $('#timer')
 var reset_button = $('#reset')
-
-
+var list_Ol = $('#ul-answers')
+var formDisplay = $('#nameSubmitter')
+var answer_display = $('#answerDisplay');
 var question_Container = $('#questionContainer');
 var li_El1 = $('#liElem1');
 var li_El2 = $('#liElem2');
 var li_El3 = $('#liElem3');
 var li_El4 = $('#liElem4');
-var answer_display = $('#answerDisplay');
-var timer_temp = 10;
 
+var timer_temp = 10;
 var user_ = {
   name: "",
   score: 0
 };
+
+var inpUser = $('#userName');
+var inpSubmitter = $('#submitter');
 
 var liHigh_1 = $('#liHigh1')
 var liHigh_2 = $('#liHigh2')
@@ -25,7 +27,12 @@ var liHigh_3 = $('#liHigh3')
 var liHigh_4 = $('#liHigh4')
 var liHigh_5 = $('#liHigh5')
 
-var questionIndex = 0;
+
+/* --------------------------------------------------------------------------------------- */
+
+
+
+
 
 // QUESTIONS 
 //  (10) pulled from https://codeexercise.com/50-top-javascript-multiple-choice-questions-and-answers/
@@ -130,36 +137,20 @@ function countdown() {
   times = setInterval(function(){
     if (timer_temp > 0) {
       --timer_temp
-      console.log(timer_temp)
       // timer_JS.innerHTML = `${timer_temp} seconds`;
       timer_JS.html(`${timer_temp} seconds`)
 
     } else {
-      console.log("Countdown complete")
-      timer_JS.removeClass("bg-white")
-      timer_JS.addClass("bg-danger")
-      timer_JS.html(`TIMES UP!`)
-      clearInterval(times)
 
-      resetEventListeners()
-      answer_display.removeClass("text-white")
-      answer_display.addClass("bg-warning text-dark")
-      answer_display.html(`Complete! <br/>
-      Your Score: ${user_.score}`)
+      // hide question and answers
 
-      window.alert("GAME OVER")
-      user_.name = window.prompt("Please enter your name:")
+      clearInterval(times);
+      resetEventListeners();
+      displayFinish();
 
       saveHighScore();
-      
-
-      if (window.confirm("Click OK to try again!")) {
-        location.reload();
-      } 
-
       loadHighScore();
       
-
       /* 
         Log user name and score and push to high score array for storage
       */
@@ -167,20 +158,36 @@ function countdown() {
   },1000)
 };
 
-// Answer Choice
+// UPDATE DISPLAY WITH BOOTSTRAP CLASSES
+function displayFinish() {
+  // hiding classes
+  list_Ol.addClass('d-none')
+  question_Container.addClass('d-none')
 
+  // show name input
+  formDisplay.removeClass('d-none')
+  
+  // changing timer apperance
+  timer_JS.removeClass("bg-white")
+  timer_JS.addClass("bg-danger")
+  timer_JS.html(`TIME'S UP!`)
+  clearInterval(times)
+
+  // changing answer display to show score 
+  answer_display.removeClass("text-white")
+  answer_display.addClass("bg-warning text-white")
+  answer_display.html(`Complete! <br/>Your Score: ${user_.score}`)
+}
+
+// Answer Choice
 function correct(timer_temp) {
   userScore++;
   timer_temp += 5;
 }
 
 function incorrect(timer_temp) {
-  timer_temp -= 5;
+  timer_temp -= 10;
 }
-
-/* -------------------------------------------------------------------------- */
-
-var shuffledQ, currentQIndex
 
 function startGame() {
   shuffledQ=questions.sort(()=> Math.random() - 0.5)
@@ -240,12 +247,12 @@ function selectAnswer(e) {
     resetEventListeners()
     answer_display.removeClass("text-white")
     answer_display.addClass("bg-warning text-dark")
-    answer_display.html(`Complete! <br/>
-    Your Score: ${user_.score}`)
+    answer_display.html(`Complete! <br/>Your Score: ${user_.score}`)
 
   }
 }
 
+// REMOVE EVENT LISTENER FUNCTION
 function resetEventListeners() {
   li_El1.off()
   li_El2.off()
@@ -253,11 +260,19 @@ function resetEventListeners() {
   li_El4.off()
 }
 
+// SAVING HIGH SCORE TO LOCAL STORAGE
 function saveHighScore() {
 
   localStorage.setItem("user", JSON.stringify(user_))
+
+  const score_ = {
+    score: user_.score,
+    name: user_.name
+  }
+  
 }
 
+// LOADING HIGH SCORES
 function loadHighScore() {
   var user = localStorage.getItem("user")
   user = JSON.parse(user)
@@ -276,26 +291,7 @@ var sorter = function(array) {
 
 }
 
-
-/* function resetter() {
-  // reset score and time
-  timer_temp = 10;
-  user_ = {
-    name: "",
-    score: 0
-  };
-
-  // reset questions
-
-  // reset list items
-  // reset colors
-  li_El1.html('')
-  li_El2.html('')
-  li_El3.html('')
-  li_El4.html('')
-} */
-
-
+// MAIN FUNCTION
 $('document').ready(function() {
   loadHighScore() 
 
@@ -307,8 +303,8 @@ $('document').ready(function() {
 })
 
 
-
-
+// RESET FUNCTION
 reset_button.on('click', function() {
-  resetter();
+  location.reload();
 })
+
