@@ -10,11 +10,11 @@
 ## TASKS
 
 ### HTML
-[X] Basic Frame
-[X] Bootstrap
+[X] Basic Frame <br />
+[X] Bootstrap <br />
 
 ### JS
-[X] Basic Frame
-[X] Timer Function
-[X] Question changing with answers
-[X] Scoring System 
+[X] Basic Frame <br />
+[X] Timer Function <br />
+[X] Question changing with answers <br />
+[X] Scoring System <br />
