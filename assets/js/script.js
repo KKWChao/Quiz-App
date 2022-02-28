@@ -3,6 +3,8 @@ var high_score = $('highScore');
 // using javascript since setInterval is a javascript builtin
 // var timer_JS = document.getElementById('timer');
 var timer_JS = $('#timer')
+var reset_button = $('#reset')
+
 
 var question_Container = $('#questionContainer');
 var li_El1 = $('#liElem1');
@@ -17,6 +19,11 @@ var user_ = {
   score: 0
 };
 
+var liHigh_1 = $('#liHigh1')
+var liHigh_2 = $('#liHigh2')
+var liHigh_3 = $('#liHigh3')
+var liHigh_4 = $('#liHigh4')
+var liHigh_5 = $('#liHigh5')
 
 var questionIndex = 0;
 
@@ -118,7 +125,6 @@ const answers = [
   "Select"
 ]
 
-
 // timer function
 function countdown() {
   times = setInterval(function(){
@@ -134,22 +140,30 @@ function countdown() {
       timer_JS.addClass("bg-danger")
       timer_JS.html(`TIMES UP!`)
       clearInterval(times)
+
+      resetEventListeners()
+      answer_display.removeClass("text-white")
+      answer_display.addClass("bg-warning text-dark")
+      answer_display.html(`Complete! <br/>
+      Your Score: ${user_.score}`)
+
+      window.alert("GAME OVER")
+      user_.name = window.prompt("Please enter your name:")
+
+      saveHighScore();
+      
+
+      if (window.confirm("Click OK to try again!")) {
+        location.reload();
+      } 
+      
+
       /* 
         Log user name and score and push to high score array for storage
       */
     }
   },1000)
 };
-
-
-
-
-
-$('body').on('click', function() {
-  $('body').off()
-  startGame();
-  countdown();
-});
 
 // Answer Choice
 
@@ -162,22 +176,15 @@ function incorrect(timer_temp) {
   timer_temp -= 5;
 }
 
-
 /* -------------------------------------------------------------------------- */
 
-
-/* window.alert("click ok to start") */
 var shuffledQ, currentQIndex
-
-/* window.alert("Click OK to Start!") */
 
 function startGame() {
   shuffledQ=questions.sort(()=> Math.random() - 0.5)
   currentQIndex = 0
   setNextQ()
 }
-
-
 
 function setNextQ() {
   resetEventListeners()
@@ -216,25 +223,26 @@ function selectAnswer(e) {
     if (answers.includes(selected)) {    
       user_.score++
       timer_temp += 5
-      answer_display.html("Correct!")
+      answer_display.html("Correct! <br/> +5 seconds")
       answer_display.addClass('bg-success')
       setNextQ();
   
     } else {
       timer_temp -= 5
-      answer_display.html("Incorrect!")
+      answer_display.html("Incorrect! <br/> -5 seconds")
       answer_display.addClass('bg-danger')
       setNextQ();
     }
   } else {
-    window.alert("GAME OVER")
+    
     resetEventListeners()
+    answer_display.removeClass("text-white")
     answer_display.addClass("bg-warning text-dark")
     answer_display.html(`Complete! <br/>
     Your Score: ${user_.score}`)
+
   }
 }
-
 
 function resetEventListeners() {
   li_El1.off()
@@ -242,3 +250,60 @@ function resetEventListeners() {
   li_El3.off()
   li_El4.off()
 }
+
+function saveHighScore() {
+
+  localStorage.setItem("user", JSON.stringify(user_))
+}
+
+function loadHighScore() {
+  var user = localStorage.getItem("user")
+  user = JSON.parse(user)
+
+
+  liHigh_1.html(`${user.score} Points: ${user.name}`)
+}
+
+// score list sorting
+var sorter = function(array) {
+  var max=0;
+
+}
+
+
+function resetter() {
+  // reset score and time
+  timer_temp = 10;
+  user_ = {
+    name: "",
+    score: 0
+  };
+
+  // reset questions
+
+  // reset list items
+  // reset colors
+  li_El1.html('')
+  li_El2.html('')
+  li_El3.html('')
+  li_El4.html('')
+}
+
+
+$('document').ready(function() {
+  loadHighScore() 
+
+  $('body').on('click', function() {
+    $('body').off()
+    startGame();
+    countdown();
+    loadHighScore() 
+  });
+})
+
+
+
+
+reset_button.on('click', function() {
+  resetter();
+})
