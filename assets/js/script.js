@@ -5,134 +5,229 @@ var timer_JS = document.getElementById('timer');
 
 var question_Container = $('#questionContainer');
 var li_El1 = $('#liElem1');
-var li_El1 = $('#liElem2');
-var li_El1 = $('#liElem3');
-var li_El1 = $('#liElem4');
+var li_El2 = $('#liElem2');
+var li_El3 = $('#liElem3');
+var li_El4 = $('#liElem4');
 var answer_display = $('#answerDisplay');
 
-var userScore = 0;
+var user_ = {
+  name: "",
+  score: 0
+};
 
+
+var questionIndex = 0;
 
 // QUESTIONS 
 //  (10) pulled from https://codeexercise.com/50-top-javascript-multiple-choice-questions-and-answers/
-const questions = {
-  q_1: {
+const questions = [
+  {
     quest:"When a user views a page containing a JavaScript program, which machine actually executes the script?",
-    options: ["The User's machine running a Web browser", "The Web server", "A central machine deep within Netscape's corporate offices", "None of the above"],  
-    ans: "The User's machine running a Web browser"},
-  q_2: {
+    options: [
+      {text: "The User's machine running a Web browser", correct: true}, 
+      {text: "The Web server", correct: false}, 
+      {text: "A central machine deep within Netscape's corporate offices", correct: false}, 
+      {text: "None of the above", correct: false}]
+    },
+  {
     quest:"______ JavaScript is also called client-side JavaScript.",
-    options:["Microsoft", "Navigator", "LiveWire", "Native"],
-    ans:"Navigator"
+    options:[
+      {text: "Microsoft", correct: false}, 
+      {text: "Navigator", correct: true}, 
+      {text: "LiveWire", correct: false}, 
+      {text: "Native", correct: false}],
   },
-  q_3: {
-    quest:"__________ JavaScript is also called server-side JavaScript.",
-    options:["Microsoft", "Navigator", "LiveWire", "Native"],
-    ans:"LiveWire"
+  {
+    quest:"_________ is a wrapped Java array, accessed from within JavaScript code.",
+    options:[
+      {text: "JavaArray", correct: true}, 
+      {text: "JavaClass", correct: false}, 
+      {text: "JavaObject", correct: false}, 
+      {text: "JavaPackage", correct: false}],
   },
-  q_4: {
-    quest:"Which of the following can't be done with client-side JavaScript?",
-    options:["Validating a form", "Sending a form's contents by email", "Storing the form's contents to a database file on the server", "None of the above"],
-    ans:"Storing the form's contents to a database file on the server"
+  {
+    quest:"______method evaluates a string of JavaScript code in the context of the specified object.",
+    options:[
+      {text: "Eval", correct: true}, 
+      {text: "ParseInt", correct: false}, 
+      {text: "ParseFloat", correct: false}, 
+      {text: "Efloat", correct: false}],
   },
-  q_5: {
-    quest:"Which of the following way can be used to indicate the LANGUAGE attribute?",
-    options:["<LANGUAGE=”JavaScriptVersion”>", "<SCRIPT LANGUAGE=”JavaScriptVersion”>", "<SCRIPT LANGUAGE=”JavaScriptVersion”> JavaScript statements…</SCRIPT>", "<SCRIPT LANGUAGE=”JavaScriptVersion”!> JavaScript statements…</SCRIPT>"],
-    ans:"<SCRIPT LANGUAGE=”JavaScriptVersion”> JavaScript statements…</SCRIPT>"
+  {
+    quest:"Which of the following is the structure of an if statement?",
+    options:[
+      {text: "if (conditional expression is true) then execute this code end if", correct: false}, 
+      {text: "if (conditional expression is true) execute this code end if", correct: false}, 
+      {text: "if (conditional expression is true) {then execute this code>->}", correct: true}, 
+      {text: "if (conditional expression is true) then {execute this code}", correct: false}],
+    ans:"if (conditional expression is true) {then execute this code>->}"
   },
-  q_6: {
-    quest:"What is the correct syntax for referring to an external script called ” abc.js”?",
-    options:["<script href=” abc.js”>", "<script name=” abc.js”>", "<script src=” abc.js”>", "None of the above"],
-    ans:"<script src=” abc.js”>"
+  {
+    quest:"The _______ method of an Array object adds and/or removes elements from an array.",
+    options:[
+      {text: "Reverse", correct: false}, 
+      {text: "Shift", correct: false}, 
+      {text: "Slice", correct: false}, 
+      {text: "Splice", correct: true}],
   },
-  q_7: {
+  {
     quest:"Which is the correct way to write a JavaScript array?",
-    options:["var txt = new Array(1:”tim”,2:”kim”,3:”jim”)", "var txt = new Array:1=(“tim”)2=(“kim”)3=(“jim”)", "var txt = new Array(“tim”,”kim”,”jim”)", "var txt = new Array=”tim”,”kim”,”jim”"],
-    ans:"var txt = new Array(“tim”,”kim”,”jim”)"
+    options:[
+      {text: "var txt = new Array(1:”tim”,2:”kim”,3:”jim”)", correct: false}, 
+      {text: "var txt = new Array:1=(“tim”)2=(“kim”)3=(“jim”)", correct: false}, 
+      {text: "var txt = new Array(“tim”,”kim”,”jim”)", correct: true}, 
+      {text: "var txt = new Array=”tim”,”kim”,”jim”", correct: false}],
   },
-  q_8: {
-    quest:"What does the <noscript> tag do?",
-    options:["Enclose text to be displayed by non-JavaScript browsers.", "Prevents scripts on the page from executing.", "Describes certain low-budget movies.", "None of the above"],
-    ans:"Enclose text to be displayed by non-JavaScript browsers."
+  {
+    quest:"____________ is the tainted property of a window object.",
+    options:[
+      {text: "Pathname", correct: false}, 
+      {text: "Protocol", correct: false}, 
+      {text: "Defaultstatus", correct: true}, 
+      {text: "Host", correct: false}],
   },
-  q_9: {
-    quest:"Which of the following event fires when the form element loses the focus: <button>, <input>, <label>, <select>, <textarea>?",
-    options:["onfocus", "onblur", "onclick", "ondblclick"],
-    ans:"onblur"
+  {
+    quest:"In JavaScript, _________ is an object of the target language data type that encloses an object of the source language.",
+    options:[
+      {text: "a wrapper", correct: true}, 
+      {text: "a link", correct: false}, 
+      {text: "a cursor", correct: false}, 
+      {text: "a form", correct: false}],
   },
-  q_10: {
+  {
     quest:"Using _______ statement is how you test for a specific condition.",
-    options:["Select", "If", "Switch", "For"],
-    ans:"If"
+    options:[
+      {text: "Select", correct: true}, 
+      {text: "If", correct: false}, 
+      {text: "Switch", correct: false}, 
+      {text: "For", correct: false}],
   },
-};
-
+];
+const answers = [
+  "The User's machine running a Web browser",
+  "Navigator",
+  "JavaArray",
+  "Eval",
+  "if (conditional expression is true) {then execute this code>->}",
+  "Splice",
+  "var txt = new Array(“tim”,”kim”,”jim”)",
+  "Defaultstatus.",
+  "a wrapper",
+  "Select"
+]
 
 
 // timer function
 function countdown() {
-  var timer_JS = 10;
+  var timer_temp = 11;
 
   setInterval(function(){
-    if (timer_JS > 0) {
-      --timer_JS
-      console.log(timer_JS)
+    if (timer_temp > 0) {
+      --timer_temp
+      console.log(timer_temp)
+      timer_JS.innerHTML = `${timer_temp} seconds`;
+
     } else {
       clearInterval()
       console.log("Countdown complete")
+      timer_JS.innerHTML = "TIMES UP"
+      /* 
+        Log user name and score and push to high score array for storage
+      */
     }
   },1000)
 };
 
-countdown()
+question_Container.on('click', function() {
+  countdown()
+}) ;
 
-// GAME FUNCTION
+// Answer Choice
 
-/* 
-
-function () {
-  on select on first answer
-    call timer function
-
-  while timer > 0
-    update question and answers
-      if correct answer selected +5s
-      else -5s
-  
-  
-
-
-  ask for name and display score
-    store in high score table
+function correct(timer_temp) {
+  userScore++;
+  timer_temp += 5;
 }
 
-*/
-
-
-
-// TIMER FUNCTIONS
-/* 
-function (no param) {
-  
-  set time at 20s
-
-  while countdown is > 0
-
-    if question is wrong
-      subtract 10 seconds
-
-    if correct 
-      add 5s
-
-  stops while loop at 0s
-
-  at aend of countdown return true to stop questions and pull score
+function incorrect(timer_temp) {
+  timer_temp -= 5;
 }
 
-*/
 
-// STORAGE FUNCTION
+/* -------------------------------------------------------------------------- */
 
-/* 
-- store high scores
-*/
+
+/* window.alert("click ok to start") */
+var shuffledQ, currentQIndex
+
+/* window.alert("Click OK to Start!") */
+
+function startGame() {
+  shuffledQ=questions.sort(()=> Math.random() - 0.5)
+  currentQIndex = 0
+  setNextQ()
+}
+
+startGame();
+
+function setNextQ() {
+  resetEventListeners()
+  showQ(shuffledQ[currentQIndex])
+}
+
+function showQ(question) {
+
+  question_Container.html(question.quest)
+
+  li_El1.html(question.options[0].text)
+  li_El1.on('click', selectAnswer)
+
+  li_El2.html(question.options[1].text)
+  li_El2.on('click', selectAnswer)
+
+  li_El3.html(question.options[2].text)
+  li_El3.on('click', selectAnswer)
+
+  li_El4.html(question.options[3].text)
+  li_El4.on('click', selectAnswer)
+}
+
+
+// ANSWER SELECTION FOR CORRECT
+function selectAnswer(e) {
+
+  const selected = e.target.innerHTML
+
+  answer_display.removeClass('bg-danger')
+  answer_display.removeClass('bg-success')
+
+  if (shuffledQ.length > currentQIndex + 1) {
+    currentQIndex++
+
+    if (answers.includes(selected)) {    
+      user_.score++
+      timer_JS += 5
+      answer_display.html("Correct!")
+      answer_display.addClass('bg-success')
+      setNextQ();
+  
+    } else {
+      timer_JS -= 5
+      answer_display.html("Incorrect!")
+      answer_display.addClass('bg-danger')
+      setNextQ();
+    }
+  } else {
+    window.alert("GAME OVER")
+    resetEventListeners()
+    answer_display.html(`Your Score: ${user_.score}`)
+  }
+}
+
+
+function resetEventListeners() {
+  li_El1.off()
+  li_El2.off()
+  li_El3.off()
+  li_El4.off()
+}
