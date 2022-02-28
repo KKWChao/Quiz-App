@@ -148,8 +148,8 @@ function countdown() {
       resetEventListeners();
       displayFinish();
 
-      saveHighScore();
-      loadHighScore();
+/*       saveHighScore();
+      loadHighScore(); */
       
       /* 
         Log user name and score and push to high score array for storage
