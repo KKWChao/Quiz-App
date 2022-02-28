@@ -5,19 +5,16 @@
 
 ## Created with:
 * HTML
-* CSS
 * Javascript
 
 ## TASKS
 
 ### HTML
 [X] Basic Frame
-[_] Bootstrap
-
-### CSS
-[_] Basic Frame
-
+[X] Bootstrap
 
 ### JS
-[_] Basic Frame
-[_] 
+[X] Basic Frame
+[X] Timer Function
+[X] Question changing with answers
+[X] Scoring System 

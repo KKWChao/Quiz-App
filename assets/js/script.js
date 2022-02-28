@@ -156,6 +156,8 @@ function countdown() {
       if (window.confirm("Click OK to try again!")) {
         location.reload();
       } 
+
+      loadHighScore();
       
 
       /* 
@@ -262,6 +264,10 @@ function loadHighScore() {
 
 
   liHigh_1.html(`${user.score} Points: ${user.name}`)
+  liHigh_2.html(`${user.score} Points: ${user.name}`)
+  liHigh_3.html(`${user.score} Points: ${user.name}`)
+  liHigh_4.html(`${user.score} Points: ${user.name}`)
+  liHigh_5.html(`${user.score} Points: ${user.name}`)
 }
 
 // score list sorting
@@ -271,7 +277,7 @@ var sorter = function(array) {
 }
 
 
-function resetter() {
+/* function resetter() {
   // reset score and time
   timer_temp = 10;
   user_ = {
@@ -287,7 +293,7 @@ function resetter() {
   li_El2.html('')
   li_El3.html('')
   li_El4.html('')
-}
+} */
 
 
 $('document').ready(function() {
@@ -297,7 +303,6 @@ $('document').ready(function() {
     $('body').off()
     startGame();
     countdown();
-    loadHighScore() 
   });
 })
 
