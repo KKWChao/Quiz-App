@@ -13,10 +13,9 @@ var li_El3 = $('#liElem3');
 var li_El4 = $('#liElem4');
 
 var timer_temp = 10;
-var user_ = {
-  name: "",
-  score: 0
-};
+
+var user = ''
+var score = 0
 
 var inpUser = $('#userName');
 var inpSubmitter = $('#submitter');
@@ -176,7 +175,7 @@ function displayFinish() {
   // changing answer display to show score 
   answer_display.removeClass("text-white")
   answer_display.addClass("bg-warning text-white")
-  answer_display.html(`Complete! <br/>Your Score: ${user_.score}`)
+  answer_display.html(`Complete! <br/>Your Score: ${score}`)
 }
 
 // Answer Choice
@@ -230,7 +229,7 @@ function selectAnswer(e) {
     currentQIndex++
 
     if (answers.includes(selected)) {    
-      user_.score++
+      score++
       timer_temp += 5
       answer_display.html("Correct! <br/> +5 seconds")
       answer_display.addClass('bg-success')
@@ -247,7 +246,7 @@ function selectAnswer(e) {
     resetEventListeners()
     answer_display.removeClass("text-white")
     answer_display.addClass("bg-warning text-dark")
-    answer_display.html(`Complete! <br/>Your Score: ${user_.score}`)
+    answer_display.html(`Complete! <br/>Your Score: ${score}`)
 
   }
 }
@@ -262,27 +261,25 @@ function resetEventListeners() {
 
 // SAVING HIGH SCORE TO LOCAL STORAGE
 function saveHighScore() {
-
-  localStorage.setItem("user", JSON.stringify(user_))
-
-  const score_ = {
-    score: user_.score,
-    name: user_.name
-  }
-  
+  localStorage.setItem('user', JSON.stringify($('#userName').val()))
+  localStorage.setItem('score', JSON.stringify(score))
 }
 
 // LOADING HIGH SCORES
 function loadHighScore() {
-  var user = localStorage.getItem("user")
-  user = JSON.parse(user)
+  var li_lists = [liHigh_1, liHigh_2, liHigh_3, liHigh_4, liHigh_5]
+
+  if (localStorage.getItem('user') === null) {
+    let x=0
+  } else {
+    var user = localStorage.getItem("user")
+    user = JSON.parse(user)
+    for (let i=0; i<li_lists.length; i++) {
+      console.log(i)
+    }
+  }
 
 
-  liHigh_1.html(`${user.score} Points: ${user.name}`)
-  liHigh_2.html(`${user.score} Points: ${user.name}`)
-  liHigh_3.html(`${user.score} Points: ${user.name}`)
-  liHigh_4.html(`${user.score} Points: ${user.name}`)
-  liHigh_5.html(`${user.score} Points: ${user.name}`)
 }
 
 // score list sorting
@@ -293,7 +290,6 @@ var sorter = function(array) {
 
 // MAIN FUNCTION
 $('document').ready(function() {
-  loadHighScore() 
 
   $('body').on('click', function() {
     $('body').off()
@@ -308,3 +304,8 @@ reset_button.on('click', function() {
   location.reload();
 })
 
+inpSubmitter.on('click', function() {
+  saveHighScore()
+  loadHighScore()
+  location.reload();
+})
