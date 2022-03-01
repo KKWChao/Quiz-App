@@ -261,21 +261,35 @@ function resetEventListeners() {
 
 // SAVING HIGH SCORE TO LOCAL STORAGE
 function saveHighScore() {
-  localStorage.setItem('user', JSON.stringify($('#userName').val()))
-  localStorage.setItem('score', JSON.stringify(score))
+  // check prior local storage
+  if (localStorage.getItem('user')===null) {
+    localStorage.setItem('user', JSON.stringify($('#userName').val()))
+    localStorage.setItem('score', JSON.stringify([score]))
+  } else {
+    var high_user = JSON.parse(localStorage.getItem("user"))
+    console.log(high_user)
+
+    var high_score = JSON.parse(localStorage.getItem("score"))
+    console.log(high_score)
+    high_score = high_score.push(score)
+
+  }
 }
 
 // LOADING HIGH SCORES
 function loadHighScore() {
   var li_lists = [liHigh_1, liHigh_2, liHigh_3, liHigh_4, liHigh_5]
 
+  // check for prior local storage
   if (localStorage.getItem('user') === null) {
     let x=0
   } else {
     var user = localStorage.getItem("user")
-    user = JSON.parse(user)
+
     for (let i=0; i<li_lists.length; i++) {
       console.log(i)
+      li_lists[i].html(JSON.parse(user))
+    
     }
   }
 
@@ -290,11 +304,12 @@ var sorter = function(array) {
 
 // MAIN FUNCTION
 $('document').ready(function() {
-
+  loadHighScore();
   $('body').on('click', function() {
     $('body').off()
     startGame();
     countdown();
+    loadHighScore();
   });
 })
 
@@ -306,6 +321,5 @@ reset_button.on('click', function() {
 
 inpSubmitter.on('click', function() {
   saveHighScore()
-  loadHighScore()
   location.reload();
 })
