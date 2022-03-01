@@ -285,10 +285,12 @@ function loadHighScore() {
     let x=0
   } else {
     var user = localStorage.getItem("user")
+    var high_Score = localStorage.getItem("score")
 
     for (let i=0; i<li_lists.length; i++) {
       console.log(i)
-      li_lists[i].html(JSON.parse(user))
+      console.log(score[i])
+      li_lists[i].html(`${JSON.parse(user)}, ${JSON.parse(score)}`)
     
     }
   }
