@@ -1,4 +1,3 @@
-var high_score = $('highScore');
 var questionIndex = 0;
 var shuffledQ, currentQIndex
 var timer_JS = $('#timer')
@@ -14,11 +13,8 @@ var li_El4 = $('#liElem4');
 
 var timer_temp = 10;
 
-var user = ''
-var score = 0
 
-var inpUser = $('#userName');
-var inpSubmitter = $('#submitter');
+
 
 var liHigh_1 = $('#liHigh1')
 var liHigh_2 = $('#liHigh2')
@@ -26,6 +22,14 @@ var liHigh_3 = $('#liHigh3')
 var liHigh_4 = $('#liHigh4')
 var liHigh_5 = $('#liHigh5')
 
+// User stuff
+
+var users = {
+  user:{}
+} 
+var userScore = 0
+var inpUser = $('#userName').val();
+var inpSubmitter = $('#submitter');
 
 /* --------------------------------------------------------------------------------------- */
 
@@ -175,7 +179,7 @@ function displayFinish() {
   // changing answer display to show score 
   answer_display.removeClass("text-white")
   answer_display.addClass("bg-warning text-white")
-  answer_display.html(`Complete! <br/>Your Score: ${score}`)
+  answer_display.html(`Complete! <br/>Your Score: ${userScore}`)
 }
 
 // Answer Choice
@@ -229,7 +233,7 @@ function selectAnswer(e) {
     currentQIndex++
 
     if (answers.includes(selected)) {    
-      score++
+      userScore++
       timer_temp += 5
       answer_display.html("Correct! <br/> +5 seconds")
       answer_display.addClass('bg-success')
@@ -246,7 +250,7 @@ function selectAnswer(e) {
     resetEventListeners()
     answer_display.removeClass("text-white")
     answer_display.addClass("bg-warning text-dark")
-    answer_display.html(`Complete! <br/>Your Score: ${score}`)
+    answer_display.html(`Complete! <br/>Your Score: ${userScore}`)
 
   }
 }
@@ -261,47 +265,39 @@ function resetEventListeners() {
 
 // SAVING HIGH SCORE TO LOCAL STORAGE
 function saveHighScore() {
-  // check prior local storage
-  if (localStorage.getItem('user')===null) {
-    localStorage.setItem('user', JSON.stringify($('#userName').val()))
-    localStorage.setItem('score', JSON.stringify([score]))
-  } else {
-    var high_user = JSON.parse(localStorage.getItem("user"))
-    console.log(high_user)
 
-    var high_score = JSON.parse(localStorage.getItem("score"))
-    console.log(high_score)
-    high_score = high_score.push(score)
+  // if nothing in local storage then it is an empty array
+  var high_scores = localStorage.getItem('local_user') || [];
 
-  }
+  // stringify object, object cant be declared since objects will default to {"key":value}, needs []
+  high_scores = JSON.parse(high_scores)
+  high_scores.push({user:inpUser, score:userScore})
+
+  localStorage.setItem("local_user", JSON.stringify(high_scores))
+  
 }
 
 // LOADING HIGH SCORES
 function loadHighScore() {
   var li_lists = [liHigh_1, liHigh_2, liHigh_3, liHigh_4, liHigh_5]
+  var high_scores = JSON.parse(localStorage.getItem('local_user')) || [];
 
-  // check for prior local storage
-  if (localStorage.getItem('user') === null) {
-    let x=0
-  } else {
-    var user = localStorage.getItem("user")
-    var high_Score = localStorage.getItem("score")
-
-    for (let i=0; i<li_lists.length; i++) {
-      console.log(i)
-      console.log(score[i])
-      li_lists[i].html(`${JSON.parse(user)}, ${JSON.parse(score)}`)
-    
-    }
+  for (var i=0; i<li_lists.length; i++) {
+    li_lists[0].html(high_scores[0])
   }
-
-
 }
 
 // score list sorting
 var sorter = function(array) {
-  var max=0;
+  var items = Object.keys(parsed_user.xyz).map(function(key) {
+    return [key, dict[key]]
+  })
 
+  items.sort(function(first, second) {
+    return second[1]-first[1]
+  })
+
+  console.log(items.slice(0,5))
 }
 
 // MAIN FUNCTION
@@ -311,7 +307,6 @@ $('document').ready(function() {
     $('body').off()
     startGame();
     countdown();
-    loadHighScore();
   });
 })
 
@@ -324,4 +319,5 @@ reset_button.on('click', function() {
 inpSubmitter.on('click', function() {
   saveHighScore()
   location.reload();
+  loadHighScore();
 })
