@@ -13,9 +13,6 @@ var li_El4 = $('#liElem4');
 
 var timer_temp = 10;
 
-
-
-
 var liHigh_1 = $('#liHigh1')
 var liHigh_2 = $('#liHigh2')
 var liHigh_3 = $('#liHigh3')
@@ -24,11 +21,7 @@ var liHigh_5 = $('#liHigh5')
 
 // User stuff
 
-var users = {
-  user:{}
-} 
 var userScore = 0
-var inpUser = $('#userName').val();
 var inpSubmitter = $('#submitter');
 
 /* --------------------------------------------------------------------------------------- */
@@ -265,11 +258,13 @@ function resetEventListeners() {
 
 // SAVING HIGH SCORE TO LOCAL STORAGE
 function saveHighScore() {
+  var inpUser = $('#userName').val();
 
   // if nothing in local storage then it is an empty array
-  var high_scores = localStorage.getItem('local_user') || [];
+  var high_scores = localStorage.getItem('local_user') || JSON.stringify([]);
 
   // stringify object, object cant be declared since objects will default to {"key":value}, needs []
+
   high_scores = JSON.parse(high_scores)
   high_scores.push({user:inpUser, score:userScore})
 
@@ -280,10 +275,18 @@ function saveHighScore() {
 // LOADING HIGH SCORES
 function loadHighScore() {
   var li_lists = [liHigh_1, liHigh_2, liHigh_3, liHigh_4, liHigh_5]
-  var high_scores = JSON.parse(localStorage.getItem('local_user')) || [];
 
-  for (var i=0; i<li_lists.length; i++) {
-    li_lists[0].html(high_scores[0])
+  if (localStorage.getItem('local_user')) {
+
+    var high_scores = localStorage.getItem('local_user') || JSON.stringify([]);
+
+    for (var i=0; i<li_lists.length; i++) {
+      console.log(i)
+      li_lists[i].html((high_scores[i].user, high_scores[i].score))
+    }
+  } else {
+    high_scores = [];
+    console.log(2)
   }
 }
 
@@ -303,6 +306,7 @@ var sorter = function(array) {
 // MAIN FUNCTION
 $('document').ready(function() {
   loadHighScore();
+  // loadHighScore();
   $('body').on('click', function() {
     $('body').off()
     startGame();
@@ -319,5 +323,5 @@ reset_button.on('click', function() {
 inpSubmitter.on('click', function() {
   saveHighScore()
   location.reload();
-  loadHighScore();
+  
 })
